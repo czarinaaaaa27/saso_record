@@ -1,0 +1,311 @@
+====================================================
+  SASO APP - INSTALLATION & SETUP GUIDE
+====================================================
+
+This guide will walk you through installing and running
+the SASO Records Management System on your computer.
+No programming experience is required.
+
+----------------------------------------------------
+WHAT IS THIS APP?
+----------------------------------------------------
+
+The SASO App is a web-based system for managing:
+  - Student records and profiles
+  - Disciplinary cases (minor, moderate, major)
+  - Clearance requirements and counseling records
+  - Student activities and participation
+  - Reports and statistics dashboard
+
+You access it through a web browser (Chrome, Edge, etc.)
+No installation of the app itself is needed after setup.
+
+
+====================================================
+PART 1 — TOOLS YOU NEED TO INSTALL FIRST
+====================================================
+
+You need three free tools installed on your computer.
+If you already have them, skip to Part 2.
+
+----------------------------------------------------
+TOOL 1: Python 3.12 (or newer)
+----------------------------------------------------
+
+Python runs the backend (data/logic) of the app.
+
+1. Go to: https://www.python.org/downloads/
+2. Click the big yellow "Download Python" button
+3. Run the downloaded installer
+4. IMPORTANT: On the first installer screen, check
+   the box that says "Add Python to PATH"
+   before clicking Install
+
+To confirm installation:
+  - Open Command Prompt (search "cmd" in Start menu)
+  - Type:  python --version
+  - You should see:  Python 3.12.x
+
+----------------------------------------------------
+TOOL 2: Node.js (version 18 or newer)
+----------------------------------------------------
+
+Node.js runs the frontend (the visual part) of the app.
+
+1. Go to: https://nodejs.org/
+2. Download the LTS version
+   (labeled "Recommended For Most Users")
+3. Run the installer with all default settings
+
+To confirm installation:
+  - Open Command Prompt
+  - Type:  node --version
+  - You should see:  v20.x.x
+
+----------------------------------------------------
+TOOL 3: Git
+----------------------------------------------------
+
+Git is used to download the project files.
+
+1. Go to: https://git-scm.com/downloads
+2. Download and install for your operating system
+3. Use all default settings during installation
+
+To confirm installation:
+  - Open Command Prompt
+  - Type:  git --version
+  - You should see:  git version 2.x.x
+
+
+====================================================
+PART 2 — INSTALLING THE APP
+====================================================
+
+----------------------------------------------------
+STEP 1: Download the Project
+----------------------------------------------------
+
+Open Command Prompt and navigate to where you want
+to save the project. For example, the Desktop:
+
+  cd Desktop
+
+Then download the project:
+
+  git clone git@github.com:your-github-username/saso-app.git
+
+This creates a folder called "saso-app". Enter it:
+
+  cd saso-app
+
+----------------------------------------------------
+STEP 2: Set Up the Backend
+----------------------------------------------------
+
+The backend handles all the data and app logic.
+
+  2a. Create a virtual environment:
+
+    python -m venv venv
+
+  2b. Activate the virtual environment:
+
+    On Windows:
+      venv\Scripts\activate
+
+    On Mac/Linux:
+      source venv/bin/activate
+
+    You will see "(venv)" appear at the start of
+    your command line. This means it's active.
+
+  2c. Install required Python packages:
+
+    pip install -r requirements.txt
+
+    This may take a few minutes.
+
+  2d. Set up the environment configuration file:
+
+    On Windows:
+      copy .env.example .env
+
+    On Mac/Linux:
+      cp .env.example .env
+
+    No changes needed for local use.
+
+  2e. Set up the database:
+
+    python manage.py migrate
+
+  2f. Load sample data (recommended for first time):
+
+    python manage.py shell < apps/seed.py
+
+    This creates a default admin account and loads
+    sample student data so you can explore the app.
+
+    Default admin login:
+      Username: admin
+      Password: admin1234
+
+    IMPORTANT: Change this password after first login
+    if this will be used in a real environment.
+
+----------------------------------------------------
+STEP 3: Set Up the Frontend
+----------------------------------------------------
+
+The frontend is the visual interface in the browser.
+
+  Open a NEW Command Prompt window (keep the first
+  one open), then go to the frontend folder:
+
+    cd Desktop\saso-app\frontend
+
+  Install frontend packages:
+
+    npm install
+
+  This may take a few minutes.
+
+
+====================================================
+PART 3 — RUNNING THE APP
+====================================================
+
+You need TWO Command Prompt windows open at the
+same time.
+
+----------------------------------------------------
+WINDOW 1 — Start the Backend
+----------------------------------------------------
+
+Make sure you are in the saso-app folder and
+the virtual environment is active (shows "(venv)").
+
+  python manage.py runserver
+
+You should see:
+  Starting development server at http://127.0.0.1:8000/
+
+Leave this window open. DO NOT close it.
+
+----------------------------------------------------
+WINDOW 2 — Start the Frontend
+----------------------------------------------------
+
+Make sure you are in the saso-app/frontend folder.
+
+  npm run dev
+
+You should see:
+  Local:   http://localhost:5173/
+
+Leave this window open. DO NOT close it.
+
+----------------------------------------------------
+OPEN THE APP IN YOUR BROWSER
+----------------------------------------------------
+
+Open Chrome, Edge, or any browser and go to:
+
+  http://localhost:5173
+
+You will see the SASO App login page. Log in with:
+
+  Username: admin
+  Password: admin1234
+
+
+====================================================
+PART 4 — USER ROLES
+====================================================
+
+Once logged in as admin, you can create other
+user accounts. There are three access levels:
+
+  Super Admin  -  Full access to everything
+  Admin        -  Manage students, cases, activities
+  Assistant    -  Limited read/write access
+
+
+====================================================
+PART 5 — STOPPING THE APP
+====================================================
+
+To stop the app, go to each Command Prompt window
+and press:  Ctrl + C
+
+Do this in both windows (frontend and backend).
+
+
+====================================================
+PART 6 — STARTING THE APP NEXT TIME
+====================================================
+
+You do NOT need to reinstall everything each time.
+Just follow these steps:
+
+  1. Open Command Prompt
+     - Go to the saso-app folder
+     - Activate the virtual environment:
+         venv\Scripts\activate
+     - Run:  python manage.py runserver
+
+  2. Open another Command Prompt
+     - Go to the saso-app/frontend folder
+     - Run:  npm run dev
+
+  3. Open your browser and go to:
+        http://localhost:5173
+
+
+====================================================
+TROUBLESHOOTING
+====================================================
+
+PROBLEM: "python is not recognized as a command"
+SOLUTION: Python was not added to PATH. Uninstall
+Python and reinstall it. On the first installer
+screen, check "Add Python to PATH".
+
+----
+
+PROBLEM: "npm is not recognized as a command"
+SOLUTION: Node.js is not installed or not in PATH.
+Reinstall Node.js from https://nodejs.org/.
+
+----
+
+PROBLEM: Browser shows a blank page or error
+SOLUTION: Make sure both Command Prompt windows
+are still running. If either was closed, restart it.
+
+----
+
+PROBLEM: "No module named..." error
+SOLUTION: The virtual environment may not be active.
+Run this first:
+  Windows:   venv\Scripts\activate
+  Mac/Linux: source venv/bin/activate
+
+----
+
+PROBLEM: "Port already in use" error
+SOLUTION: Restart your computer and try again,
+or close any app using port 8000 or 5173.
+
+
+====================================================
+NEED HELP?
+====================================================
+
+If you run into an issue not covered here, contact
+the system developer or submit a report at:
+
+  https://github.com/your-github-username/saso-app/issues
+
+====================================================
